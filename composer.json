@@ -1,0 +1,29 @@
+{
+    "name": "spaethtech/collections",
+    "keywords": [ "collections" ],
+    "description": "A robust library for handling Collections.",
+    "homepage": "https://github.com/spaethtech/collections.git",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ryan Spaeth",
+            "email": "rspaeth@spaethtech.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.0"
+    },
+    "require-dev": {
+        "onspli/phpdoc-markdown": "0.3.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "SpaethTech\\": "./src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SpaethTech\\": "./tests/"
+        }
+    }
+}
