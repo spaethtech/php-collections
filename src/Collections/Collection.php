@@ -47,7 +47,7 @@ class Collection implements JsonSerializable, Countable, Iterator
         if($elements === null)
             $elements = [];
 
-        if(!is_subclass_of($type, Collectible::class, true))
+        if(!is_subclass_of($type, Collectible::class))
             throw new CollectionTypeException("The specified type: '$type' must extend '".Collectible::class."'!");
 
         $this->type = $type;
@@ -295,7 +295,7 @@ class Collection implements JsonSerializable, Countable, Iterator
                 // THEN attempt to instantiate it before appending it!
                 $element = new $this->type($element);
 
-                if (get_class($element) != $this->type && !is_subclass_of($element, $this->type, true))
+                if (get_class($element) != $this->type && !is_subclass_of($element, $this->type))
                     throw new CollectionTypeException("The element type: '".
                         get_class($element)."' must match or extend '$this->type'!");
 
@@ -304,7 +304,7 @@ class Collection implements JsonSerializable, Countable, Iterator
             // IF the item is an object...
             else if (is_object($element))
             {
-                if (get_class($element) != $this->type && !is_subclass_of($element, $this->type, true))
+                if (get_class($element) != $this->type && !is_subclass_of($element, $this->type))
                     throw new CollectionTypeException("The element type: '".
                         get_class($element)."' must match or extend '$this->type'!");
 
@@ -313,7 +313,7 @@ class Collection implements JsonSerializable, Countable, Iterator
             }
             else
             {
-                if (get_class($element) != $this->type && !is_subclass_of($element, $this->type, true))
+                if (get_class($element) != $this->type && !is_subclass_of($element, $this->type))
                     throw new CollectionTypeException("The element type: '".
                         get_class($element)."' must match or extend '$this->type'!");
 
@@ -491,7 +491,7 @@ class Collection implements JsonSerializable, Countable, Iterator
     {
         foreach($this->elements as $index => $element)
         {
-            if(!is_subclass_of($element, $this->type, true) && !is_a($element, $this->type))
+            if(!is_subclass_of($element, $this->type) && !is_a($element, $this->type))
                 throw new CollectionTypeException("The element type: '".
                     get_class($element)."' must match or extend '$this->type'!");
 
@@ -543,9 +543,6 @@ class Collection implements JsonSerializable, Countable, Iterator
 
     #endregion
 
-    // -----------------------------------------------------------------------------------------------------------------
-
-    #region METHODS: ( find, where, whereAll, whereAny )
 
     /**
      * @param callable $evaluator
@@ -569,6 +566,14 @@ class Collection implements JsonSerializable, Countable, Iterator
         // Return the collection of matches, even if it is empty!
         return new Collection($this->type, $matches);
     }
+
+
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    #region METHODS: ( find, where, whereAll, whereAny )
+
+
 
     /**
      * @param string $property
@@ -697,6 +702,11 @@ class Collection implements JsonSerializable, Countable, Iterator
 
     #endregion
 
+
+
+
+
+
     // -----------------------------------------------------------------------------------------------------------------
 
     #region METHODS: ( clear )
@@ -731,13 +741,7 @@ class Collection implements JsonSerializable, Countable, Iterator
      */
     public function hasElement(Collectible $collectible): bool
     {
-        foreach($this->elements as $element)
-        {
-            if($element === $collectible)
-                return true;
-        }
-
-        return false;
+        return in_array($collectible, $this->elements, TRUE);
     }
 
     /**
@@ -763,7 +767,7 @@ class Collection implements JsonSerializable, Countable, Iterator
     {
         foreach($elements as $element)
         {
-            if(get_class($element) != $this->type && !is_subclass_of($element, $this->type, true))
+            if(get_class($element) != $this->type && !is_subclass_of($element, $this->type))
                 throw new CollectionTypeException("The element type: '".get_class($element).
                     "' must match or extend '$this->type'!");
         }
